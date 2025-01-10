@@ -1,4 +1,4 @@
-document.getElementById('calculate-btn').addEventListener('click', function() {
+document.getElementById('calculate-btn').addEventListener('click', function () {
     const startTime = document.getElementById('start-time').value;
     const endTime = document.getElementById('end-time').value;
 
@@ -15,8 +15,29 @@ document.getElementById('calculate-btn').addEventListener('click', function() {
         const hours = Math.floor(duration / 3600);
         const minutes = Math.floor((duration % 3600) / 60);
 
-        document.getElementById('result').innerText = `Duration: ${hours} hours and ${minutes} minutes`;
+        const resultText = `Duration: ${hours} hours and ${minutes} minutes`;
+        document.getElementById('result').innerText = resultText;
+
+        const log = {
+            startTime: startTime,
+            endTime: endTime,
+            duration: resultText,
+            date: new Date().toLocaleString()
+        };
+
+        localStorage.setItem('timeLog', JSON.stringify(log));
     } else {
         document.getElementById('result').innerText = 'Please enter both times.';
     }
 });
+
+
+function fetchFromLocalStorage() {
+    const log = JSON.parse(localStorage.getItem('timeLog'));
+    if (log) {
+        document.getElementById('log').innerText = log.duration;
+    } else {
+        document.getElementById('log').innerText = 'No log yet.';
+    }
+}
+fetchFromLocalStorage();
